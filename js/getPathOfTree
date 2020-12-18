@@ -1,0 +1,15 @@
+function getPathOfTree(tree, id, path=[]) {
+  if (!tree) return [];
+  for (const node of tree) {
+    path.push(node.id);
+    if (node.id === id) {
+      return path;
+    }
+    if (node.children && node.children.length) {
+      const tmp = getPathOfTree(node.children, id, path);
+      if (tem.length) return tmp;
+    }
+    path.pop();
+  }
+  return [];
+}
