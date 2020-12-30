@@ -6,17 +6,18 @@
     真正的深拷贝只能通过递归遍历的方式实现
 */
 
-var deepCopy = function (obj, map = {}) {
-  if (obj === null || typeof obj !== 'object') return null; // 避免 null 被赋值为 {}
-  var newObj = obj instanceof Array ? [] : {};
-  if (map.get(obj)) { // 使用 map 解决循环引用的问题
-    return map.get(obj);
-  }
-  map.set(obj, newObj);
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key)) {
-      newObj[key] = deepCopy(obj[key]);
+var deepCopy = function (obj, map = new Map()) {
+    if (typeof obj !== 'object') return obj;
+    if (obj === null) return null; // 避免 null 被赋值为 {}
+    var newObj = obj instanceof Array ? [] : {};
+    if (map.get(obj)) { // 使用 map 解决循环引用的问题
+        return map.get(obj);
     }
-  }
-  return newObj;
+    map.set(obj, newObj);
+    for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      newObj[key] = deepCopy(obj[key], map);
+    }
+    }
+    return newObj;
 }
