@@ -7,8 +7,8 @@
 */
 
 var deepCopy = function (obj, map = new Map()) {
-    if (typeof obj !== 'object') return obj;
     if (obj === null) return null; // 避免 null 被赋值为 {}
+    if (typeof obj !== 'object') return obj;
     var newObj = obj instanceof Array ? [] : {};
     if (map.get(obj)) { // 使用 map 解决循环引用的问题
         return map.get(obj);
